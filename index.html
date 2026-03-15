@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
+
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Carregando sua oferta...</title>
 
 <style>
@@ -11,6 +14,7 @@ font-family: Arial, sans-serif;
 background-image:url("images/background.webp");
 background-size:cover;
 background-position:center;
+background-repeat:no-repeat;
 display:flex;
 align-items:center;
 justify-content:center;
@@ -18,20 +22,11 @@ height:100vh;
 margin:0;
 }
 
-.overlay{
-background:rgba(0,0,0,0.45);
-width:100%;
-height:100%;
-display:flex;
-align-items:center;
-justify-content:center;
-}
-
 .card{
 background:white;
-padding:35px;
-border-radius:14px;
-box-shadow:0 10px 30px rgba(0,0,0,0.25);
+padding:40px;
+border-radius:16px;
+box-shadow:0 15px 40px rgba(0,0,0,0.25);
 text-align:center;
 width:360px;
 }
@@ -68,22 +63,24 @@ color:#e53935;
 }
 
 .btn{
-border:none;
-padding:12px 16px;
-border-radius:10px;
-margin:8px;
-cursor:pointer;
-font-size:15px;
 display:flex;
 align-items:center;
 justify-content:center;
-gap:8px;
+gap:10px;
 width:100%;
+padding:14px;
+border-radius:10px;
+border:none;
+cursor:pointer;
+font-size:16px;
+font-weight:bold;
+margin-top:10px;
 }
 
 .btn img{
-width:20px;
-height:20px;
+width:22px;
+height:22px;
+object-fit:contain;
 }
 
 .whatsapp{
@@ -97,7 +94,7 @@ border:2px solid #111;
 }
 
 .linktree img{
-height:26px;
+height:22px;
 width:auto;
 }
 
@@ -117,8 +114,6 @@ color:#777;
 </head>
 
 <body>
-
-<div class="overlay">
 
 <div class="card">
 
@@ -151,7 +146,6 @@ Seu atendimento foi enviado para nossa equipe.
 onclick="window.open('https://wa.me/5599984442913')">
 
 <img src="images/whatsapp.png">
-
 Falar no WhatsApp
 
 </button>
@@ -169,7 +163,6 @@ onclick="window.open('https://linktr.ee/InstitutoChavesSousa')">
 onclick="window.open('https://instagram.com/InstitutoChavesSousa')">
 
 <img src="images/instagram.png">
-
 Voltar para Instagram
 
 </button>
@@ -182,13 +175,15 @@ Automação inteligente
 
 </div>
 
-</div>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
 <script>
 
-// webhook do Make
+// capturar parâmetros da URL
 const params = new URLSearchParams(window.location.search)
 
+// enviar dados para webhook do Make
 fetch("https://hook.us2.make.com/twgle86aw99utpxx8c489bb850hzoaiq",{
 method:"POST",
 headers:{
@@ -205,7 +200,16 @@ instagram: params.get("instagram")
 
 // mostrar resultado depois de 1 segundo
 setTimeout(()=>{
+
 document.getElementById("resultado").style.display="block"
+
+// animação de confetes
+confetti({
+particleCount:120,
+spread:70,
+origin:{y:0.6}
+})
+
 },1000)
 
 
