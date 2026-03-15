@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Carregando sua oferta...</title>
+
+<style>
+
+body{
+font-family: Arial, sans-serif;
+background-image:url("images/background.webp");
+background-size:cover;
+background-position:center;
+display:flex;
+align-items:center;
+justify-content:center;
+height:100vh;
+margin:0;
+}
+
+.overlay{
+background:rgba(0,0,0,0.45);
+width:100%;
+height:100%;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+.card{
+background:white;
+padding:35px;
+border-radius:14px;
+box-shadow:0 10px 30px rgba(0,0,0,0.25);
+text-align:center;
+width:360px;
+}
+
+h1{
+color:#2e7d32;
+}
+
+.progress{
+width:100%;
+background:#eee;
+border-radius:10px;
+overflow:hidden;
+margin:20px 0;
+}
+
+.bar{
+height:12px;
+width:0%;
+background:#4caf50;
+animation:load 1s forwards;
+}
+
+@keyframes load{
+0%{width:0%}
+100%{width:100%}
+}
+
+.timer{
+font-size:22px;
+font-weight:bold;
+margin:15px 0;
+color:#e53935;
+}
+
+.btn{
+border:none;
+padding:12px 16px;
+border-radius:10px;
+margin:8px;
+cursor:pointer;
+font-size:15px;
+display:flex;
+align-items:center;
+justify-content:center;
+gap:8px;
+width:100%;
+}
+
+.btn img{
+width:20px;
+height:20px;
+}
+
+.whatsapp{
+background:#25D366;
+color:white;
+}
+
+.linktree{
+background:white;
+border:2px solid #111;
+}
+
+.linktree img{
+height:26px;
+width:auto;
+}
+
+.instagram{
+background:#E1306C;
+color:white;
+}
+
+.footer{
+font-size:12px;
+margin-top:20px;
+color:#777;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="overlay">
+
+<div class="card">
+
+<h2>🎓 Buscando sua promoção...</h2>
+
+<div class="progress">
+<div class="bar"></div>
+</div>
+
+<p>Aguarde enquanto verificamos as melhores condições para você.</p>
+
+<div id="resultado" style="display:none">
+
+<h1>Oferta encontrada! ✅</h1>
+
+<p>
+Seu atendimento foi enviado para nossa equipe.
+</p>
+
+<p>
+⏳ Um consultor vai falar com você no Direct em instantes.
+</p>
+
+<p>Promoção reservada por:</p>
+
+<div class="timer" id="countdown">05:00</div>
+
+
+<button class="btn whatsapp"
+onclick="window.open('https://wa.me/5599984442913')">
+
+<img src="images/whatsapp.png">
+
+Falar no WhatsApp
+
+</button>
+
+
+<button class="btn linktree"
+onclick="window.open('https://linktr.ee/InstitutoChavesSousa')">
+
+<img src="images/linktree.png">
+
+</button>
+
+
+<button class="btn instagram"
+onclick="window.open('https://instagram.com/InstitutoChavesSousa')">
+
+<img src="images/instagram.png">
+
+Voltar para Instagram
+
+</button>
+
+<div class="footer">
+Automação inteligente
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+// webhook do Make
+const params = new URLSearchParams(window.location.search)
+
+fetch("https://hook.us2.make.com/twgle86aw99utpxx8c489bb850hzoaiq",{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+nome: params.get("nome"),
+curso: params.get("curso"),
+area: params.get("area"),
+instagram: params.get("instagram")
+})
+})
+
+
+// mostrar resultado depois de 1 segundo
+setTimeout(()=>{
+document.getElementById("resultado").style.display="block"
+},1000)
+
+
+// contador regressivo
+let tempo = 300
+
+function atualizarTimer(){
+
+let minutos = Math.floor(tempo/60)
+let segundos = tempo % 60
+
+if(segundos < 10){
+segundos = "0"+segundos
+}
+
+document.getElementById("countdown").innerHTML =
+minutos + ":" + segundos
+
+tempo--
+
+}
+
+setInterval(atualizarTimer,1000)
+
+</script>
+
+</body>
+</html>
