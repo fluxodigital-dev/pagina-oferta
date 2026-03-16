@@ -2,7 +2,8 @@
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8">
-<title>Buscando sua promoção...</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Buscando sua promoção</title>
 
 <style>
 
@@ -18,21 +19,17 @@ margin:0;
 
 .card{
 background:white;
-padding:35px;
+padding:25px;
 border-radius:15px;
 box-shadow:0 10px 30px rgba(0,0,0,0.15);
 text-align:center;
-width:360px;
-}
-
-h1{
-color:#2e7d32;
-margin-bottom:10px;
+width:90%;
+max-width:360px;
 }
 
 .progress{
 width:100%;
-height:10px;
+height:8px;
 background:#eee;
 border-radius:10px;
 overflow:hidden;
@@ -52,14 +49,17 @@ animation:load 1s forwards;
 }
 
 .timer{
-font-size:22px;
+font-size:20px;
 font-weight:bold;
 color:#e53935;
-margin:15px 0;
+margin:10px 0;
 }
 
-button{
-display:block;
+.button{
+display:flex;
+align-items:center;
+justify-content:center;
+gap:8px;
 width:100%;
 border:none;
 padding:12px;
@@ -67,36 +67,33 @@ margin-top:10px;
 border-radius:8px;
 font-size:15px;
 cursor:pointer;
-transition:0.2s;
-}
-
-button:hover{
-transform:scale(1.03);
+color:white;
 }
 
 .whatsapp{
 background:#25D366;
-color:white;
 }
 
 .linktree{
 background:#111;
-color:white;
 }
 
 .instagram{
 background:#E1306C;
-color:white;
+}
+
+.button img{
+width:20px;
+height:20px;
 }
 
 .footer{
 font-size:11px;
 color:#777;
-margin-top:15px;
+margin-top:10px;
 }
 
 </style>
-
 </head>
 
 <body>
@@ -105,7 +102,7 @@ margin-top:15px;
 
 <div id="loading">
 
-<h2>🔎 Buscando sua promoção...</h2>
+<h3>🔎 Buscando sua promoção...</h3>
 
 <div class="progress">
 <div class="bar"></div>
@@ -117,7 +114,7 @@ margin-top:15px;
 
 <div id="resultado" style="display:none">
 
-<h1>Promoção encontrada! 🎉</h1>
+<h2>🎉 Promoção encontrada!</h2>
 
 <p>
 Seu atendimento foi enviado para nossa equipe.
@@ -131,19 +128,31 @@ Seu atendimento foi enviado para nossa equipe.
 
 <div class="timer" id="countdown">05:00</div>
 
-<button class="whatsapp"
+<button class="button whatsapp"
 onclick="window.open('https://wa.me/5599984442913')">
-📲 Falar no WhatsApp
+
+<img src="https://cdn-icons-png.flaticon.com/512/733/733585.png">
+
+Falar no WhatsApp
+
 </button>
 
-<button class="linktree"
+<button class="button linktree"
 onclick="window.open('https://linktr.ee/InstitutoChavesSousa')">
-🌐 Ver todos os links
+
+<img src="https://cdn-icons-png.flaticon.com/512/3536/3536505.png">
+
+Ver todos os links
+
 </button>
 
-<button class="instagram"
-onclick="history.back()">
-📸 Voltar para Instagram
+<button class="button instagram"
+onclick="window.close()">
+
+<img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png">
+
+Voltar para Instagram
+
 </button>
 
 <div class="footer">
@@ -156,7 +165,7 @@ Automação inteligente
 
 <script>
 
-// pegar dados da URL enviados pelo ManyChat
+// pegar dados enviados pelo ManyChat
 const params = new URLSearchParams(window.location.search)
 
 const nome = params.get("nome")
@@ -180,10 +189,11 @@ origem:origem
 })
 })
 
-// mostrar resultado depois de 1 segundo
+// mostrar resultado
 setTimeout(()=>{
 document.getElementById("loading").style.display="none"
 document.getElementById("resultado").style.display="block"
+confetti()
 },1000)
 
 
@@ -209,6 +219,8 @@ tempo--
 setInterval(atualizar,1000)
 
 </script>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
 </body>
 </html>
