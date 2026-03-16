@@ -1,21 +1,14 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
-
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Carregando sua oferta...</title>
+<title>Buscando sua promoção...</title>
 
 <style>
 
 body{
-font-family: Arial, sans-serif;
-background-image:url("./images/background.webp");
-background-size:cover;
-background-position:center;
-background-repeat:no-repeat;
+font-family:Arial, sans-serif;
+background:linear-gradient(135deg,#4facfe,#00f2fe);
 display:flex;
 align-items:center;
 justify-content:center;
@@ -25,19 +18,21 @@ margin:0;
 
 .card{
 background:white;
-padding:40px;
-border-radius:16px;
-box-shadow:0 15px 40px rgba(0,0,0,0.25);
+padding:35px;
+border-radius:15px;
+box-shadow:0 10px 30px rgba(0,0,0,0.15);
 text-align:center;
 width:360px;
 }
 
 h1{
 color:#2e7d32;
+margin-bottom:10px;
 }
 
 .progress{
 width:100%;
+height:10px;
 background:#eee;
 border-radius:10px;
 overflow:hidden;
@@ -45,7 +40,7 @@ margin:20px 0;
 }
 
 .bar{
-height:12px;
+height:100%;
 width:0%;
 background:#4caf50;
 animation:load 1s forwards;
@@ -59,29 +54,24 @@ animation:load 1s forwards;
 .timer{
 font-size:22px;
 font-weight:bold;
-margin:15px 0;
 color:#e53935;
+margin:15px 0;
 }
 
-.btn{
-display:flex;
-align-items:center;
-justify-content:center;
-gap:10px;
+button{
+display:block;
 width:100%;
-padding:14px;
-border-radius:10px;
 border:none;
-cursor:pointer;
-font-size:16px;
-font-weight:bold;
+padding:12px;
 margin-top:10px;
+border-radius:8px;
+font-size:15px;
+cursor:pointer;
+transition:0.2s;
 }
 
-.btn img{
-width:22px;
-height:22px;
-object-fit:contain;
+button:hover{
+transform:scale(1.03);
 }
 
 .whatsapp{
@@ -90,13 +80,8 @@ color:white;
 }
 
 .linktree{
-background:white;
-border:2px solid #111;
-}
-
-.linktree img{
-height:22px;
-width:auto;
+background:#111;
+color:white;
 }
 
 .instagram{
@@ -105,9 +90,9 @@ color:white;
 }
 
 .footer{
-font-size:12px;
-margin-top:20px;
+font-size:11px;
 color:#777;
+margin-top:15px;
 }
 
 </style>
@@ -118,17 +103,21 @@ color:#777;
 
 <div class="card">
 
-<h2>🎓 Buscando sua promoção...</h2>
+<div id="loading">
+
+<h2>🔎 Buscando sua promoção...</h2>
 
 <div class="progress">
 <div class="bar"></div>
 </div>
 
-<p>Aguarde enquanto verificamos as melhores condições para você.</p>
+<p>Aguarde um instante...</p>
+
+</div>
 
 <div id="resultado" style="display:none">
 
-<h1>Oferta encontrada! ✅</h1>
+<h1>Promoção encontrada! 🎉</h1>
 
 <p>
 Seu atendimento foi enviado para nossa equipe.
@@ -138,34 +127,23 @@ Seu atendimento foi enviado para nossa equipe.
 ⏳ Um consultor vai falar com você no Direct em instantes.
 </p>
 
-<p>Promoção reservada por:</p>
+<p>Oferta reservada por:</p>
 
 <div class="timer" id="countdown">05:00</div>
 
-
-<button class="btn whatsapp"
+<button class="whatsapp"
 onclick="window.open('https://wa.me/5599984442913')">
-
-<img src="./images/whatsapp.png">
-Falar no WhatsApp
-
+📲 Falar no WhatsApp
 </button>
 
-
-<button class="btn linktree"
+<button class="linktree"
 onclick="window.open('https://linktr.ee/InstitutoChavesSousa')">
-
-<img src="./images/linktree.png">
-
+🌐 Ver todos os links
 </button>
 
-
-<button class="btn instagram"
-onclick="window.open('https://instagram.com/InstitutoChavesSousa')">
-
-<img src="./images/instagram.png">
-Voltar para Instagram
-
+<button class="instagram"
+onclick="history.back()">
+📸 Voltar para Instagram
 </button>
 
 <div class="footer">
@@ -176,48 +154,43 @@ Automação inteligente
 
 </div>
 
-
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-
 <script>
 
-// capturar parâmetros da URL
+// pegar dados da URL enviados pelo ManyChat
 const params = new URLSearchParams(window.location.search)
 
-// enviar dados para webhook do Make
+const nome = params.get("nome")
+const curso = params.get("curso")
+const area = params.get("area")
+const instagram = params.get("instagram")
+const origem = params.get("origem")
+
+// enviar para webhook do Make
 fetch("https://hook.us2.make.com/twgle86aw99utpxx8c489bb850hzoaiq",{
 method:"POST",
 headers:{
 "Content-Type":"application/json"
 },
 body:JSON.stringify({
-nome: params.get("nome"),
-curso: params.get("curso"),
-area: params.get("area"),
-instagram: params.get("instagram")
+nome:nome,
+curso:curso,
+area:area,
+instagram:instagram,
+origem:origem
 })
 })
-
 
 // mostrar resultado depois de 1 segundo
 setTimeout(()=>{
-
+document.getElementById("loading").style.display="none"
 document.getElementById("resultado").style.display="block"
-
-// confetes
-confetti({
-particleCount:120,
-spread:70,
-origin:{y:0.6}
-})
-
 },1000)
 
 
 // contador regressivo
 let tempo = 300
 
-function atualizarTimer(){
+function atualizar(){
 
 let minutos = Math.floor(tempo/60)
 let segundos = tempo % 60
@@ -233,7 +206,7 @@ tempo--
 
 }
 
-setInterval(atualizarTimer,1000)
+setInterval(atualizar,1000)
 
 </script>
 
